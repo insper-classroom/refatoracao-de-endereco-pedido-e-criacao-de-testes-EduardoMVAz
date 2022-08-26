@@ -38,6 +38,8 @@ class Endereco:
             self.complemento = complemento
             self.cep = str(cep)
 
+    def __str__(self):
+        return str(self.estado) + ' : ' + str(self.cidade) + ' : ' + str(self.rua) + ' : ' + str(self.numero)
 
     def consultar_cep(self, cep):
         '''

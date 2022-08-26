@@ -19,13 +19,23 @@ class Carrinho:
         # Chave é o id do Produto e o Valor é a quantidade desse item no carrinho
         self.__itens = {}
 
-    def adicionar_item(self, item:Produto, qtd):
+    def adicionar_item(self, item:Produto, qtd=1):
         
         id = item.get_id()
+        if item in self.__itens:
+            self.__itens[item] += qtd
+        else:
+            self.__itens[item] = qtd
         
-        # Implemente a adição do item no dicionário
+        # Implemente a adição do item no dicionário - Feito
+        
+    def altera_quantidade(self, item:Produto, qtd):
+        if item in self.__itens:
+            self.__itens[item] = qtd
+        else:
+            print('Esse Item não existe!')
         
 
     def remover_item(self, item:Produto):
-        pass
-        # Implemente este método
+        del self.__itens[item]
+        # Implemente este método - Feito

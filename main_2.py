@@ -7,6 +7,10 @@
 # ---------------------------------------------------------------------------
 from classes.PessoaFisica import PessoaFisica
 from classes.Endereco import Endereco
+from classes.Pedido import Pedido
+from classes.Produto import Produto
+from classes.Carrinho import Carrinho
+from classes.Pagamentos import Pagamento
 
 import copy
 
@@ -14,7 +18,7 @@ import copy
 
 # Cria uma pessoa 
 pessoa1 = PessoaFisica('Carlos', 'tiago@email.com', '524.222.452-6')
-print(pessoa1)
+print(pessoa1.nome)
 
 # Cria  um endereço
 end1 = Endereco('08320330', 430)
@@ -40,14 +44,13 @@ sabonete = Produto("0010342967", "Sabonete")
 carrinho = Carrinho()
 carrinho.adicionar_item(sabonete)
 
-pedido = Pedido()
+pedido = Pedido(pessoa1, carrinho)
 # Lembre-se de adicionar estes atributos ao endereço
 pedido.endereco_entrega = copy.deepcopy(end1) 
 pedido.endereco_faturamento = copy.deepcopy(end2)
 
 
 pag = Pagamento(pedido)
-pag.processa_pagamento()
 if pag.pagamento_aprovado:
     pedido.status = Pedido.PAGO 
 
