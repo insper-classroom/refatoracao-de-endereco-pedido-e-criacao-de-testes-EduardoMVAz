@@ -6,6 +6,7 @@
 # version ='1.0'
 # ---------------------------------------------------------------------------
 
+import string
 import requests
 import json
 
@@ -19,24 +20,28 @@ class Endereco:
 
     def __init__(self, cep, numero ,rua='', estado='', cidade='', complemento=''):
 
-        if (rua == '') or (estado == '') or (cidade == ''):
-            end_json = self.consultar_cep(cep)
+        if (isinstance(cep, str) or isinstance(cep, int)) and (isinstance(numero, str) or isinstance(numero, int)):
 
-            self.rua = end_json['logradouro']
-            self.estado = end_json['uf']
-            self.cidade = end_json['localidade']
-            self.numero = numero
-            self.complemento = complemento
-            self.cep = str(cep)
+            if (rua == '') or (estado == '') or (cidade == ''):
+                end_json = self.consultar_cep(cep)
 
+                self.rua = end_json['logradouro']
+                self.estado = end_json['uf']
+                self.cidade = end_json['localidade']
+                self.numero = numero
+                self.complemento = complemento
+                self.cep = str(cep)
+
+            else:
+
+                self.rua = rua
+                self.estado = estado
+                self.cidade = cidade
+                self.numero = int(numero)
+                self.complemento = complemento
+                self.cep = str(cep)
         else:
-
-            self.rua = rua
-            self.estado = estado
-            self.cidade = cidade
-            self.numero = int(numero)
-            self.complemento = complemento
-            self.cep = str(cep)
+            raise TypeError
 
     def __str__(self):
         return str(self.estado) + ' : ' + str(self.cidade) + ' : ' + str(self.rua) + ' : ' + str(self.numero)
@@ -46,22 +51,26 @@ class Endereco:
         Metodo realiza a consulta do cep em uma api publica para obter informações
         como estado, cidade e rua
         '''
-        # continuam existindo variaveis locais, nem tudo é propriedade de objeto
+        if len(str(cep)) != 8:
+            print('CEP Inválido!')
+            return False
+        else:
+            # continuam existindo variaveis locais, nem tudo é propriedade de objeto
 
-        # end point da API de consulta ao cep
-        url_api = f'https://viacep.com.br/ws/{str(cep)}/json/'
+            # end point da API de consulta ao cep
+            url_api = f'https://viacep.com.br/ws/{str(cep)}/json/'
 
-        # Sem corpo na requisição
-        # Não é necessario nenhum cabeçalho HTTP especial
-        payload = {}
-        headers = {}
+            # Sem corpo na requisição
+            # Não é necessario nenhum cabeçalho HTTP especial
+            payload = {}
+            headers = {}
 
-        # requisição GET na url de pesquisa do cep. Doc.: https://viacep.com.br/
-        response = requests.request("GET", url_api, headers=headers, data=payload)
+            # requisição GET na url de pesquisa do cep. Doc.: https://viacep.com.br/
+            response = requests.request("GET", url_api, headers=headers, data=payload)
 
-        # converte a resposta json em dict
-        json_resp = response.json()
-        return json_resp
+            # converte a resposta json em dict
+            json_resp = response.json()
+            return json_resp
 
 
 

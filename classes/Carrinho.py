@@ -6,6 +6,7 @@
 # version ='1.0'
 # ---------------------------------------------------------------------------
 
+from typing import Type
 from classes.Endereco import Endereco
 from classes.Produto import Produto
 from classes.PessoaFisica import PessoaFisica
@@ -17,25 +18,31 @@ class Carrinho:
 
     def __init__(self):
         # Chave é o id do Produto e o Valor é a quantidade desse item no carrinho
-        self.__itens = {}
+        self.itens = {}
 
     def adicionar_item(self, item:Produto, qtd=1):
         
         id = item.get_id()
-        if item in self.__itens:
-            self.__itens[item] += qtd
+        if not isinstance(qtd, int):
+            raise TypeError
+
+        if item in self.itens:
+            self.itens[item] += qtd
         else:
-            self.__itens[item] = qtd
+            self.itens[item] = qtd
         
         # Implemente a adição do item no dicionário - Feito
         
     def altera_quantidade(self, item:Produto, qtd):
-        if item in self.__itens:
-            self.__itens[item] = qtd
+        if item in self.itens:
+            self.itens[item] = qtd
         else:
-            print('Esse Item não existe!')
+            return 'Esse Item não existe!'
         
 
     def remover_item(self, item:Produto):
-        del self.__itens[item]
+        if item in self.itens:
+            del self.itens[item]
+        else:
+            return 'Esse Item não existe!'
         # Implemente este método - Feito

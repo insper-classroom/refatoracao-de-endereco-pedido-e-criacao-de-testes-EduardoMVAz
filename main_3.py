@@ -59,8 +59,7 @@ pedido = Pedido(pessoa, carrinho)
 
 ends = pessoa.listar_enderecos()
 
-if len(ends) > 0:
-    endereco = ends['casa']
+endereco = ends['casa']
 
 # Lembre-se de adicionar estes atributos ao endereço
 pedido.endereco_entrega = copy.deepcopy(endereco)

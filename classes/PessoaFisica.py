@@ -19,29 +19,48 @@ class PessoaFisica:
     lista_pessoas = []
 
     def __init__(self, nome='Visitante', email='', cpf=''):
-        self.nome = nome
-        self.email = email
-        self.cpf = cpf
-        self.__enderecos = {}
+        
+        if not isinstance(nome, str):
+            raise TypeError
+        else:
+            self.nome = nome
+
+
+        if not isinstance(email, str):
+            raise TypeError
+        else:
+            self.email = email
+
+        if isinstance(cpf, str) or isinstance(cpf, int):
+            self.cpf = cpf
+        else:
+            raise TypeError
+
+
+        self.enderecos = {}
         __class__.lista_pessoas.append(self)
 
     # escolher o estilo de retorno
 
     def adicionar_endereco(self, apelido_endereco, end:Endereco):
-        self.__enderecos[apelido_endereco] = end
+        self.enderecos[apelido_endereco] = end
 
     def remover_endereco(self, apelido_endereco):
-        del self.__enderecos[apelido_endereco]
+        if apelido_endereco in self.enderecos:
+            del self.enderecos[apelido_endereco]
 
     def get_endereco(self, apelido_endereco):
-        return self.__enderecos[apelido_endereco]
+        return self.enderecos[apelido_endereco]
 
     def listar_enderecos(self):
-        return self.__enderecos
+        return self.enderecos
 
     def busca_nome(nome):
         lista_pesquisa = []
         for pessoa in PessoaFisica.lista_pessoas:
             if pessoa.nome[0:len(nome)].lower() == nome.lower():
                 lista_pesquisa.append(pessoa)
-        return lista_pesquisa
+        if len(lista_pesquisa) > 0:
+            return lista_pesquisa
+        else:
+            return 'Nenhum usuário com este nome!'
